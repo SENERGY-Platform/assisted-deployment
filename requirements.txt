@@ -1,0 +1,4 @@
+pyyaml
+git+https://github.com/y-du/simple-conf-manager.git@1.0.0
+falcon
+gunicorn
