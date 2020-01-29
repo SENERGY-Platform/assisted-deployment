@@ -11,8 +11,8 @@ def loadYamlFile(path):
             parts.append(data)
     return parts
 
-def dumpYamlFile(parts: list):
-    with open("test.yaml", "w") as file:
+def dumpYamlFile(parts: list, path):
+    with open(path, "w") as file:
         yaml.dump_all(parts, stream=file)
 
 def setKubeconfig(path, config):
