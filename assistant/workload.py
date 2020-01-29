@@ -39,3 +39,6 @@ class WorkloadConfigs:
         except KeyError as ex:
             logger.error("could not get config for {}/{}/{} - {}".format(project, namespace, workload, ex))
             raise
+
+    def list(self):
+        return yaml.dump(self.__configs)
