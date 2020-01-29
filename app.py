@@ -33,6 +33,7 @@ app = falcon.API()
 # )
 
 routes = (
+    ("/", api.Static("/static/index.html")),
     ("/projects", api.Projects(browser)),
     ("/projects/{project}", api.NameSpaces(browser)),
     ("/projects/{project}/{namespace}", api.Workloads(browser)),
@@ -44,7 +45,7 @@ routes = (
 for route in routes:
     app.add_route(*route)
 
-app.add_static_route("/", static_dir, fallback_filename="index.html")
+app.add_static_route("/static", static_dir)
 
 # gunicorn --log-level error app:app
 
