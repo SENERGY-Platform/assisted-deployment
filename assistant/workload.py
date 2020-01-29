@@ -32,6 +32,12 @@ class WorkloadConfigs:
                 self.__configs.update(data[0])
         except Exception as ex:
             logger.error("could nor read workload configs from '{}/{}'".format(self.__path, self.__wl_conf_file))
+    def __write(self):
+        logger.info("writing workload configs to '{}/{}'".format(self.__path, self.__wl_conf_file))
+        try:
+            dumpYamlFile([self.__configs], "{}/{}".format(self.__path, self.__wl_conf_file))
+        except Exception as ex:
+            logger.error("could not write workload configs to '{}/{}' - {}".format(self.__path, self.__wl_conf_file, ex))
 
     def getConfig(self, project, namespace, workload):
         try:
