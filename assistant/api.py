@@ -172,3 +172,33 @@ class Kubeconfig:
             except Exception as ex:
                 logger.error("can't write kubeconfig to '{}/{}' - {}".format(config.Kubeconfig.path, config.Kubeconfig.file, ex))
                 resp.status = falcon.HTTP_500
+
+
+class WorkloadConfs:
+    def __init__(self, workload_configs: WorkloadConfigs):
+        self.__workload_configs = workload_configs
+
+    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+        try:
+            resp.status = falcon.HTTP_200
+            resp.content_type = falcon.MEDIA_TEXT
+            resp.body = self.__workload_configs.list()
+        except Exception as ex:
+            logger.error("can't list workload configs - {}".format(ex))
+            resp.status = falcon.HTTP_500
+
+    def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
+        if not req.content_type == falcon.MEDIA_TEXT:
+            resp.status = falcon.HTTP_415
+        else:
+            try:
+                data = req.bounded_stream.read()
+                if data:
+                    self.__workload_configs.update(data.decode())
+                    resp.status = falcon.HTTP_200
+                else:
+                    resp.status = falcon.HTTP_400
+            except Exception as ex:
+                logger.error("can't update workload configs - {}".format(ex))
+                resp.status = falcon.HTTP_500
+
