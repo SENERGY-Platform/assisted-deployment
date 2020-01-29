@@ -49,3 +49,8 @@ class WorkloadConfigs:
 
     def list(self):
         return yaml.dump(self.__configs)
+
+    def update(self, data):
+        self.__configs.clear()
+        self.__configs.update(yaml.load(data, Loader=yaml.SafeLoader))
+        self.__write()
