@@ -9,6 +9,14 @@ import falcon, json
 logger = getLogger(__name__.rsplit(".", 1)[-1])
 
 
+class Static:
+    def __init__(self, location):
+        self.__location = location
+
+    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+        raise falcon.HTTPPermanentRedirect(self.__location)
+
+
 class Projects:
     def __init__(self, browser: Browser):
         self.__browser = browser
