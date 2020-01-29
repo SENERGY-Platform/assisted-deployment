@@ -2,6 +2,7 @@ from .configuration import config
 from .logger import getLogger
 from .browser import Browser
 from .blacklist import BlacklistManger
+from .workload import WorkloadConfigs
 from .util import getKubeconfig, setKubeconfig
 import falcon, json
 

@@ -1,4 +1,4 @@
-__all__ = ("WorkloadConfig",)
+__all__ = ("WorkloadConfigs",)
 
 
 from .logger import getLogger
@@ -9,7 +9,7 @@ import os
 logger = getLogger(__name__.rsplit(".", 1)[-1])
 
 
-class WorkloadConfig:
+class WorkloadConfigs:
     def __init__(self, path):
         self.__path = path
         self.__wl_conf_file = "wl_conf_file.yaml"

@@ -1,6 +1,6 @@
 from assistant.configuration import config, user_dir, static_dir
 from assistant.blacklist import BlacklistManger
-from assistant.workload import WorkloadConfig
+from assistant.workload import WorkloadConfigs
 from assistant.browser import Browser
 from assistant import api
 import falcon
@@ -10,9 +10,9 @@ blacklist = BlacklistManger(user_dir)
 blacklist.init()
 blacklist.read()
 
-workload_config = WorkloadConfig(user_dir)
-workload_config.init()
-workload_config.read()
+workload_configs = WorkloadConfigs(user_dir)
+workload_configs.init()
+workload_configs.read()
 
 browser = Browser(config.Browser.path, blacklist)
 browser.read()
