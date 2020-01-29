@@ -47,5 +47,7 @@ for route in routes:
 
 app.add_static_route("/static", static_dir)
 
+app.req_options.strip_url_path_trailing_slash = True
+
 # gunicorn --log-level error app:app
 
