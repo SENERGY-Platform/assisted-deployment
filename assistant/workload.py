@@ -31,7 +31,8 @@ class WorkloadConfigs:
                 self.__configs.clear()
                 self.__configs.update(data[0])
         except Exception as ex:
-            logger.error("could nor read workload configs from '{}/{}'".format(self.__path, self.__wl_conf_file))
+            logger.error("could not read workload configs from '{}/{}' - {}".format(self.__path, self.__wl_conf_file, ex))
+
     def __write(self):
         logger.info("writing workload configs to '{}/{}'".format(self.__path, self.__wl_conf_file))
         try:
