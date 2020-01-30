@@ -24,6 +24,8 @@ browser.read()
 
 app = falcon.API()
 
+app.req_options.strip_url_path_trailing_slash = True
+
 routes = (
     ("/", api.Static("/static/index.html")),
     ("/projects", api.Projects(browser)),
@@ -38,7 +40,5 @@ for route in routes:
     app.add_route(*route)
 
 app.add_static_route("/static", static_dir)
-
-app.req_options.strip_url_path_trailing_slash = True
 
 # gunicorn --log-level error app:app
