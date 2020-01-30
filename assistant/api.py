@@ -182,7 +182,7 @@ class WorkloadConfs:
         try:
             resp.status = falcon.HTTP_200
             resp.content_type = falcon.MEDIA_TEXT
-            resp.body = self.__workload_configs.list()
+            resp.body = yaml.dump(self.__workload_configs.list())
         except Exception as ex:
             logger.error("can't list workload configs - {}".format(ex))
             resp.status = falcon.HTTP_500
