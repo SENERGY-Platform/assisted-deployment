@@ -53,9 +53,9 @@ class Browser:
 
     def listNamespaces(self, project) -> list:
         try:
-            name_spaces = list(self.__projects[project].keys())
-            name_spaces.sort()
-            return name_spaces
+            namespaces = list(self.__projects[project].keys())
+            namespaces.sort()
+            return namespaces
         except KeyError as ex:
             logger.error("could not list name spaces - {}".format(ex))
             raise
