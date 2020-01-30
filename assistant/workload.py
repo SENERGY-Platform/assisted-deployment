@@ -48,7 +48,7 @@ class WorkloadConfigs:
             raise
 
     def list(self):
-        return yaml.dump(self.__configs)
+        return self.__configs.copy()
 
     def update(self, data):
         self.__configs.clear()
