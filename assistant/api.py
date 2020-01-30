@@ -3,6 +3,7 @@ from .logger import getLogger
 from .browser import Browser
 from .blacklist import BlacklistManger
 from .workload import WorkloadConfigs
+from .deployment import KubectlManager
 from .util import getKubeconfig, setKubeconfig
 import falcon, json, yaml
 
@@ -203,3 +204,35 @@ class WorkloadConfs:
                 logger.error("can't update workload configs - {}".format(ex))
                 resp.status = falcon.HTTP_500
 
+
+class Kubectl:
+    __parameters = ("project", "namespace", "workload")
+
+    def __init__(self, kubectl_manager: KubectlManager):
+        self.__kubectl_manager = kubectl_manager
+
+    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+        if req.params and set(req.params).issubset(self.__parameters):
+            if len(req.params) == 3:
+                try:
+                    self.__kubectl_manager.deployWorkload(**req.params)
+                    resp.status = falcon.HTTP_200
+                except Exception:
+                    resp.status = falcon.HTTP_400
+            elif len(req.params) == 2:
+                try:
+                    self.__kubectl_manager.deployNamespace(**req.params)
+                    resp.status = falcon.HTTP_200
+                except Exception:
+                    resp.status = falcon.HTTP_400
+            elif len(req.params) == 1:
+                try:
+                    if "*" in req.params.values():
+                        self.__kubectl_manager.deployAll()
+                    else:
+                        self.__kubectl_manager.deployProject(**req.params)
+                    resp.status = falcon.HTTP_200
+                except Exception:
+                    resp.status = falcon.HTTP_400
+        else:
+            resp.status = falcon.HTTP_400
