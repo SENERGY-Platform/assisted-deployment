@@ -194,7 +194,7 @@ class WorkloadConfs:
             try:
                 data = req.bounded_stream.read()
                 if data:
-                    self.__workload_configs.update(data.decode())
+                    self.__workload_configs.update(yaml.load(data.decode(), Loader=yaml.SafeLoader))
                     resp.status = falcon.HTTP_200
                 else:
                     resp.status = falcon.HTTP_400
