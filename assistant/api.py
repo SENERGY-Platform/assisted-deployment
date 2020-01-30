@@ -129,7 +129,7 @@ class Blacklist:
     def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
         resp.status = falcon.HTTP_200
         resp.content_type = falcon.MEDIA_TEXT
-        resp.body = "\n".join(self.__blacklist.list()) #json.dumps(self.__blacklist.list())
+        resp.body = "\n".join(self.__blacklist.list())
 
     def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
         if not req.content_type == falcon.MEDIA_TEXT:
