@@ -29,7 +29,6 @@ routes = (
     ("/projects", api.Projects(browser)),
     ("/projects/{project}", api.NameSpaces(browser)),
     ("/projects/{project}/{namespace}", api.Workloads(browser)),
-    # ("/control/{option}", api.Control(browser, blacklist)),
     ("/workload-configs", api.WorkloadConfs(workload_configs)),
     ("/blacklist", api.Blacklist(blacklist)),
     ("/kubeconfig", api.Kubeconfig())
