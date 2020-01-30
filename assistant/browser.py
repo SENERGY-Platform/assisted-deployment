@@ -27,7 +27,7 @@ class Browser:
                         workloads = dict()
                         for wl in os.listdir("{}/{}/{}".format(self.__path, pr, np)):
                             if any(extension in wl for extension in (".yml", ".yaml")):
-                                workloads[wl.split(".", 1)[0]] = "{}/{}/{}/{}".format(self.__path, pr, np, wl)
+                                workloads[wl.split(".", 1)[0]] = wl
                         project[np] = workloads
                 self.__projects[pr] = project
                 logger.debug("project '{}': {}".format(pr, list(project.keys())))
