@@ -3,7 +3,7 @@ __all__ = ("WorkloadConfigs",)
 
 from .logger import getLogger
 from .util import loadYamlFile, dumpYamlFile
-import os, yaml
+import os
 
 
 logger = getLogger(__name__.rsplit(".", 1)[-1])
