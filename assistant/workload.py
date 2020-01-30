@@ -43,9 +43,8 @@ class WorkloadConfigs:
     def getConfig(self, project, namespace, workload):
         try:
             return self.__configs[project][namespace][workload].copy()
-        except KeyError as ex:
-            logger.error("could not get config for {}/{}/{} - {}".format(project, namespace, workload, ex))
-            raise
+        except KeyError:
+            pass
 
     def list(self):
         return self.__configs.copy()
