@@ -32,9 +32,9 @@ class Browser:
                 self.__projects[pr] = project
                 logger.debug("project '{}': {}".format(pr, list(project.keys())))
 
-    def getProject(self, name) -> dict:
+    def getProject(self, project) -> dict:
         try:
-            return self.__projects[name]
+            return self.__projects[project]
         except KeyError as ex:
             logger.error("could not get project - {}".format(ex))
             raise
@@ -44,9 +44,9 @@ class Browser:
         projects.sort()
         return projects
 
-    def getNamespace(self, project, name):
+    def getNamespace(self, project, namespace):
         try:
-            return self.__projects[project][name]
+            return self.__projects[project][namespace]
         except KeyError as ex:
             logger.error("could not get name space - {}".format(ex))
             raise
@@ -67,9 +67,9 @@ class Browser:
             logger.error("could not get workload - {}".format(ex))
             raise
 
-    def listWorkloads(self, project, name_space) -> list:
+    def listWorkloads(self, project, namespace) -> list:
         try:
-            workloads = list(self.__projects[project][name_space].keys())
+            workloads = list(self.__projects[project][namespace].values())
             workloads.sort()
             return workloads
         except KeyError as ex:
