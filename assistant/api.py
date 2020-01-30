@@ -108,18 +108,18 @@ class Workload:
             resp.status = falcon.HTTP_500
 
 
-class Control:
-    def __init__(self, browser: Browser, blacklist: BlacklistManger):
-        self.__browser = browser
-        self.__blacklist = blacklist
-
-    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response, option):
-        if option == "reload":
-            self.__blacklist.read()
-            self.__browser.read()
-            resp.status = falcon.HTTP_200
-        else:
-            resp.status = falcon.HTTP_404
+# class Control:
+#     def __init__(self, browser: Browser, blacklist: BlacklistManger):
+#         self.__browser = browser
+#         self.__blacklist = blacklist
+#
+#     def on_get(self, req: falcon.request.Request, resp: falcon.response.Response, option):
+#         if option == "reload":
+#             self.__blacklist.read()
+#             self.__browser.read()
+#             resp.status = falcon.HTTP_200
+#         else:
+#             resp.status = falcon.HTTP_404
 
 
 class Blacklist:
