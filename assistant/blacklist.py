@@ -13,8 +13,8 @@ class BlacklistError(Exception):
 
 
 class BlacklistManger:
-    def __init__(self, path):
-        self.__file = "{}/blacklist.txt".format(path)
+    def __init__(self, path, file):
+        self.__file = "{}/{}".format(path, file)
         self.__list = list()
 
     def init(self):
