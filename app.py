@@ -6,7 +6,11 @@ from assistant import api
 import falcon
 
 
-blacklist = BlacklistManger(user_dir)
+base_blacklist = BlacklistManger(user_dir, "base_blacklist.txt")
+base_blacklist.init()
+base_blacklist.read()
+
+blacklist = BlacklistManger(user_dir, "blacklist.txt")
 blacklist.init()
 blacklist.read()
 
@@ -14,7 +18,7 @@ workload_configs = WorkloadConfigs(user_dir)
 workload_configs.init()
 workload_configs.read()
 
-browser = Browser(config.Browser.path, blacklist)
+browser = Browser(config.Browser.path, base_blacklist, blacklist)
 browser.read()
 
 
