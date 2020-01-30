@@ -4,7 +4,7 @@ from .browser import Browser
 from .blacklist import BlacklistManger
 from .workload import WorkloadConfigs
 from .util import getKubeconfig, setKubeconfig
-import falcon, json
+import falcon, json, yaml
 
 
 logger = getLogger(__name__.rsplit(".", 1)[-1])
