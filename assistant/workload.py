@@ -52,5 +52,5 @@ class WorkloadConfigs:
 
     def update(self, data):
         self.__configs.clear()
-        self.__configs.update(yaml.load(data, Loader=yaml.SafeLoader))
+        self.__configs.update(data)
         self.__write()
