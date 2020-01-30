@@ -10,8 +10,9 @@ logger = getLogger(__name__.rsplit(".", 1)[-1])
 
 
 class Browser:
-    def __init__(self, path, blacklist: BlacklistManger):
+    def __init__(self, path, base_blacklist: BlacklistManger, blacklist: BlacklistManger):
         self.__path = path
+        self.__base_blacklist = base_blacklist
         self.__blacklist = blacklist
         self.__projects = dict()
 
@@ -19,10 +20,10 @@ class Browser:
         self.__projects.clear()
         logger.info("loading projects from '{}'".format(self.__path))
         for pr in os.listdir(self.__path):
-            if not self.__blacklist.check(pr) and os.path.isdir("{}/{}".format(self.__path, pr)):
+            if not self.__blacklist.check(pr) and not self.__base_blacklist.check(pr) and os.path.isdir("{}/{}".format(self.__path, pr)):
                 project = dict()
                 for np in os.listdir("{}/{}".format(self.__path, pr)):
-                    if not self.__blacklist.check(np) and os.path.isdir("{}/{}/{}".format(self.__path, pr, np)):
+                    if not self.__blacklist.check("{}/{}".format(pr, np)) and not self.__base_blacklist.check(np) and os.path.isdir("{}/{}/{}".format(self.__path, pr, np)):
                         workloads = dict()
                         for wl in os.listdir("{}/{}/{}".format(self.__path, pr, np)):
                             if any(extension in wl for extension in (".yml", ".yaml")):
