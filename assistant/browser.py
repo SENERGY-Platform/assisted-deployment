@@ -60,9 +60,9 @@ class Browser:
             logger.error("could not list name spaces - {}".format(ex))
             raise
 
-    def getWorkload(self, project, name_space, name) -> str:
+    def getWorkload(self, project, namespace, workload) -> str:
         try:
-            return self.__projects[project][name_space][name]
+            return self.__projects[project][namespace][workload]
         except KeyError as ex:
             logger.error("could not get workload - {}".format(ex))
             raise
