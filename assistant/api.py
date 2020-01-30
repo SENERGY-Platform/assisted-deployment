@@ -132,12 +132,13 @@ class Blacklist:
         resp.body = "\n".join(self.__blacklist.list()) #json.dumps(self.__blacklist.list())
 
     def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
-        if not req.content_type == falcon.MEDIA_JSON:
+        if not req.content_type == falcon.MEDIA_TEXT:
             resp.status = falcon.HTTP_415
         else:
             try:
-                items = json.load(req.bounded_stream)
-                self.__blacklist.update(items)
+                data = req.bounded_stream.read()
+                data = [item for item in data.decode().split("\n") if item]
+                self.__blacklist.update(data)
                 resp.status = falcon.HTTP_200
             except Exception as ex:
                 logger.error("could not update blacklist - {}".format(ex))
