@@ -43,5 +43,3 @@ for route in routes:
     app.add_route(*route)
 
 app.add_static_route("/static", static_dir)
-
-# gunicorn --log-level error app:app
