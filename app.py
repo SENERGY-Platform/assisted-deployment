@@ -24,18 +24,6 @@ browser.read()
 
 app = falcon.API()
 
-# routes = (
-#     ("/projects", api.Projects(browser)),
-#     ("/projects/{project}", api.Project(browser)),
-#     ("/projects/{project}/namespaces", api.NameSpaces(browser)),
-#     ("/projects/{project}/namespaces/{namespace}", api.NameSpace(browser)),
-#     ("/projects/{project}/namespaces/{namespace}/workloads", api.Workloads(browser)),
-#     ("/projects/{project}/namespaces/{namespace}/workloads/{workload}", api.Workload(browser)),
-#     ("/control/{option}", api.Control(browser, blacklist)),
-#     ("/blacklist", api.Blacklist(blacklist)),
-#     ("/kubeconfig", api.Kubeconfig())
-# )
-
 routes = (
     ("/", api.Static("/static/index.html")),
     ("/projects", api.Projects(browser)),
