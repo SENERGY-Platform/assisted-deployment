@@ -46,15 +46,22 @@ class KubectlManager:
             logger.debug("{}/{}/{}: {}".format(project, namespace, workload, cpi.stdout.decode().rstrip("\n").replace("\n", " - ")))
         if os.path.isfile(self.__tmp_workload_file):
             os.remove(self.__tmp_workload_file)
+        return "{}/{}/{}".format(project, namespace, workload), cpi.returncode
 
     def deployNamespace(self, project, namespace):
+        results = list()
         for workload in self.__browser.listWorkloads(project, namespace):
-            self.deployWorkload(project, namespace, workload)
+            results.append(self.deployWorkload(project, namespace, workload))
+        return results
 
     def deployProject(self, project):
+        results = list()
         for namespace in self.__browser.listNamespaces(project):
-            self.deployNamespace(project, namespace)
+            results.extend(self.deployNamespace(project, namespace))
+        return results
 
     def deployAll(self):
+        results = list()
         for project in self.__browser.listProjects():
-            self.deployProject(project)
+            results.extend(self.deployProject(project))
+        return results
