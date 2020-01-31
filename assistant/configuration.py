@@ -32,7 +32,7 @@ class AssistantConf:
 
     @section
     class Browser:
-        path = None
+        path = "/source"
 
     @section
     class Kubeconfig:
