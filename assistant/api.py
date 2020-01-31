@@ -231,22 +231,22 @@ class Kubectl:
         if req.params and set(req.params).issubset(self.__parameters):
             if len(req.params) == 3:
                 try:
-                    self.__kubectl_manager.deployWorkload(**req.params)
+                    resp.body = json.dumps(list(self.__kubectl_manager.deployWorkload(**req.params)))
                     resp.status = falcon.HTTP_200
                 except Exception:
                     resp.status = falcon.HTTP_400
             elif len(req.params) == 2:
                 try:
-                    self.__kubectl_manager.deployNamespace(**req.params)
+                    resp.body = json.dumps(self.__kubectl_manager.deployNamespace(**req.params))
                     resp.status = falcon.HTTP_200
                 except Exception:
                     resp.status = falcon.HTTP_400
             elif len(req.params) == 1:
                 try:
                     if "*" in req.params.values():
-                        self.__kubectl_manager.deployAll()
+                        resp.body = json.dumps(self.__kubectl_manager.deployAll())
                     else:
-                        self.__kubectl_manager.deployProject(**req.params)
+                        resp.body = json.dumps(self.__kubectl_manager.deployProject(**req.params))
                     resp.status = falcon.HTTP_200
                 except Exception:
                     resp.status = falcon.HTTP_400
