@@ -46,4 +46,4 @@ class AssistantConf:
         to_file = False
 
 
-config = AssistantConf('assistant.conf', user_dir)
+config = AssistantConf('assistant.conf', user_dir, ext_aft_crt=False)
