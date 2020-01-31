@@ -41,9 +41,9 @@ class KubectlManager:
             workload_file = self.__tmp_workload_file
         cpi = subprocess.run(("kubectl", "apply", "-f", workload_file, "-n", namespace), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         if cpi.returncode:
-            logger.error("{}/{}/{}: {}".format(project, namespace, workload, cpi.stdout.decode().rstrip("\n").replace("\n", " - ")))
+            logger.error("kubectl apply -f {p}/{n}/{w} -n {n}: {cpi}".format(p=project, n=namespace, w=workload, cpi=cpi.stdout.decode().rstrip("\n").replace("\n", " - ")))
         else:
-            logger.debug("{}/{}/{}: {}".format(project, namespace, workload, cpi.stdout.decode().rstrip("\n").replace("\n", " - ")))
+            logger.info("kubectl apply -f {p}/{n}/{w} -n {n}: {cpi}".format(p=project, n=namespace, w=workload, cpi=cpi.stdout.decode().rstrip("\n").replace("\n", " - ")))
         if os.path.isfile(self.__tmp_workload_file):
             os.remove(self.__tmp_workload_file)
         return "{}/{}/{}".format(project, namespace, workload), cpi.returncode
