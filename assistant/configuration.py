@@ -42,8 +42,8 @@ class AssistantConf:
     @section
     class Logger:
         level = "info"
-        colored = True
-        to_file = True
+        colored = False
+        to_file = False
 
 
 config = AssistantConf('assistant.conf', user_dir)
