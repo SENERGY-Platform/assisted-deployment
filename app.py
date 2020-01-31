@@ -51,7 +51,8 @@ routes = (
     ("/projects/{project}", api.NameSpaces(browser)),
     ("/projects/{project}/{namespace}", api.Workloads(browser)),
     ("/workload-configs", api.WorkloadConfs(workload_configs)),
-    ("/blacklist", api.Blacklist(blacklist)),
+    ("/blacklists/source", api.Blacklist(blacklist)),
+    ("/blacklists/base", api.Blacklist(base_blacklist)),
     ("/kubeconfig", api.Kubeconfig()),
     ("/kubectl", api.Kubectl(kubectl_manager))
 )
