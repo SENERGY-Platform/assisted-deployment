@@ -147,3 +147,17 @@ async function kubectl(cmd, params) {
     }
 }
 
+
+async function rancherCli(cmd, params) {
+    let request_params = "";
+    for (let i = 0; i < params.length; i++) {
+        request_params += param_map[i] + params[i];
+    }
+    let result = await awaitRequest("GET", "../rancher/"+cmd+"?"+request_params);
+    if (result.status === 200) {
+        clearResponsePane();
+        response_pane.appendChild(document.createTextNode(result.response));
+    }
+}
+
+
