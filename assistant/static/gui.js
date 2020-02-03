@@ -288,3 +288,18 @@ async function listItems(grid, level, path="") {
         containers[level].appendChild(container_div);
     }
 }
+
+async function listVersions(pane) {
+    let endpoints = ["/rancher/version", "/kubectl/version", "/helm/version"];
+    for (let endpoint of endpoints) {
+        pane.appendChild(document.createTextNode(endpoint.split("/")[1] + ":"));
+        pane.appendChild(document.createElement('br'));
+        let result = await awaitRequest("GET", ".." + endpoint);
+        if (result.status === 200) {
+            pane.appendChild(document.createTextNode(result.response));
+        }
+        pane.appendChild(document.createElement('br'));
+        pane.appendChild(document.createElement('br'));
+        pane.appendChild(document.createElement('br'));
+    }
+}
