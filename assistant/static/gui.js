@@ -369,3 +369,31 @@ function btnHeader(context, btn) {
     }
 }
 
+function btnConfNav(context, btn) {
+    for (let cd of document.getElementById('configuration').getElementsByClassName('btn-conf-nav-active')) {
+        cd.className = 'btn-conf-nav';
+    }
+    btn.className = 'btn-conf-nav-active';
+    clearContainer(content_pane);
+    clearResponsePane();
+    switch (context) {
+        case "rancher-config":
+            showConfigItem(content_pane, "/configuration/rancher");
+            break;
+        case "kube-config":
+            showConfigItem(content_pane, "/configuration/kubeconfig");
+            break;
+        case "bl-base":
+            showConfigItem(content_pane, "/configuration/blacklists/base");
+            break;
+        case "bl-source":
+            showConfigItem(content_pane, "/configuration/blacklists/source");
+            break;
+        case "wl-configs":
+            showConfigItem(content_pane, "/configuration/workload-configs");
+            break;
+        case "version":
+            listVersions(content_pane);
+            break;
+    }
+}
