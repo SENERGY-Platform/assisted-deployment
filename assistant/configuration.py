@@ -40,6 +40,13 @@ class AssistantConf:
         file = "config"
 
     @section
+    class Rancher:
+        server = None
+        default_context = None
+        default_context_name = "Default"
+        bearer_token = None
+
+    @section
     class Logger:
         level = "info"
         colored = False
