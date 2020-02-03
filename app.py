@@ -19,7 +19,7 @@ from assistant.configuration import config, user_dir, static_dir
 from assistant.blacklist import BlacklistManger
 from assistant.workload import WorkloadConfigs
 from assistant.browser import Browser
-from assistant.deployment import KubectlManager
+from assistant.deployment import KubectlManager, HelmManager, RancherManager
 from assistant import api
 import falcon
 
@@ -40,6 +40,10 @@ browser = Browser(config.Browser.path, base_blacklist, blacklist)
 browser.read()
 
 kubectl_manager = KubectlManager(browser, workload_configs)
+helm_manager = HelmManager(browser, workload_configs)
+rancher_manager = RancherManager(browser)
+rancher_manager.init()
+
 
 app = falcon.API()
 
