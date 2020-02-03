@@ -110,18 +110,20 @@ class RancherManager:
         self.__project_map = dict()
 
     def init(self):
-        cpi = subprocess.run(
-            ("rancher", "login", config.Rancher.server, "--token", config.Rancher.bearer_token, "--context", config.Rancher.default_context),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT
-        )
-        log_msg = "rancher login {} --token <hidden> --context {}: {}".format(config.Rancher.server, config.Rancher.default_context, cpi.stdout.decode().rstrip("\n").replace("\n", " - "))
-        if cpi.returncode:
-            logger.error(log_msg)
+        if all((config.Rancher.server, config.Rancher.bearer_token, config.Rancher.default_context, config.Rancher.default_context_name)):
+            cpi = subprocess.run(
+                ("rancher", "login", config.Rancher.server, "--token", config.Rancher.bearer_token, "--context", config.Rancher.default_context),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT
+            )
+            log_msg = "rancher login {} --token <hidden> --context {}: {}".format(config.Rancher.server, config.Rancher.default_context, cpi.stdout.decode().rstrip("\n").replace("\n", " - "))
+            if cpi.returncode:
+                logger.error(log_msg)
+            else:
+                logger.info(log_msg)
+                self.__buildProjectMap()
         else:
-            logger.info(log_msg)
-            self.__buildProjectMap()
-        return cpi.returncode
+            logger.warning("rancher config missing")
 
     def __buildProjectMap(self):
         if self.__project_map:
