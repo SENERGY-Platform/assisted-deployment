@@ -290,7 +290,10 @@ class RancherConf:
                     config.Rancher.default_context_name = data["default_context_name"]
                     config.Rancher.default_context = data["default_context"]
                     config.Rancher.bearer_token = data["bearer_token"]
-                    self.__rancher_manager.login()
+                    try:
+                        self.__rancher_manager.login()
+                    except Exception:
+                        pass
                     resp.status = falcon.HTTP_200
                 else:
                     resp.status = falcon.HTTP_400
