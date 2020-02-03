@@ -87,3 +87,19 @@ class KubectlManager:
         except FileNotFoundError:
             logger.error("can't find kubectl")
 
+
+class HelmManager:
+    def __init__(self, browser: Browser, workload_configs: WorkloadConfigs):
+        self.__browser = browser
+        self.__workload_configs = workload_configs
+
+    def getVersion(self):
+        try:
+            cpi = subprocess.run(("helm", "version"), capture_output=True)
+            if cpi.stderr:
+                logger.error("helm version: {}".format(cpi.stderr.decode().rstrip("\n").replace("\n", " ")))
+            if cpi.stdout:
+                return cpi.stdout.decode()
+        except FileNotFoundError:
+            logger.error("can't find helm")
+
