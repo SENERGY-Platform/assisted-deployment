@@ -123,7 +123,7 @@ class RancherManager:
                 logger.info(log_msg)
                 self.__buildProjectMap()
         else:
-            logger.warning("rancher config missing")
+            logger.warning("rancher login failed - config missing")
 
     def __buildProjectMap(self):
         if self.__project_map:
