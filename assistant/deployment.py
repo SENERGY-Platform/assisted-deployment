@@ -103,3 +103,76 @@ class HelmManager:
         except FileNotFoundError:
             logger.error("can't find helm")
 
+
+class RancherManager:
+    def __init__(self, browser: Browser):
+        self.__browser = browser
+        self.__project_map = dict()
+
+    def init(self):
+        cpi = subprocess.run(
+            ("rancher", "login", config.Rancher.server, "--token", config.Rancher.bearer_token, "--context", config.Rancher.default_context),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT
+        )
+        log_msg = "rancher login {} --token <hidden> --context {}: {}".format(config.Rancher.server, config.Rancher.default_context, cpi.stdout.decode().rstrip("\n").replace("\n", " - "))
+        if cpi.returncode:
+            logger.error(log_msg)
+        else:
+            logger.info(log_msg)
+            self.__buildProjectMap()
+        return cpi.returncode
+
+    def __buildProjectMap(self):
+        if self.__project_map:
+            self.__contextSwitch(config.Rancher.default_context_name)
+            self.__project_map.clear()
+        cpi = subprocess.run(("rancher", "projects", "ls"), capture_output=True)
+        if not cpi.returncode and cpi.stdout:
+            projects = cpi.stdout.decode().split("\n")
+            for line in projects[1:]:
+                project = list(filter(None, line.split(" ")))
+                if project:
+                    self.__project_map[project[1]] = project[0]
+            logger.info("rancher projects ls: {}".format(list(self.__project_map.keys())))
+        else:
+            logger.error("rancher projects ls: {}".format(cpi.stderr.decode().rstrip("\n").replace("\n", " - ")))
+
+    def __contextSwitch(self, project):
+        cpi = subprocess.run(("rancher", "context", "switch", self.__project_map[project]), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        log_msg = "rancher context switch {}".format(project, cpi.stdout.decode().rstrip("\n").replace("\n", " - "))
+        if cpi.returncode:
+            logger.error("{}: {}".format(log_msg, cpi.stdout.decode().rstrip("\n").replace("\n", " - ")))
+        else:
+            logger.info(log_msg)
+        return not cpi.returncode
+
+    def __operation(self, cmd, sub_cmd, value):
+        cpi = subprocess.run(("rancher", cmd, sub_cmd, value), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        log_msg = "rancher {} {} {}".format(cmd, sub_cmd, value)
+        if cpi.returncode:
+            logger.error("{}: {}".format(log_msg, cpi.stdout.decode().rstrip("\n").replace("\n", " - ")))
+        else:
+            logger.info(log_msg)
+        return cpi.returncode
+
+    def operationProject(self, cmd, project):
+        err = self.__operation("projects", cmd, self.__project_map.setdefault(project, project))
+        if not err:
+            self.__buildProjectMap()
+        return project, err
+
+    def operationNamespace(self, cmd, project, namespace):
+        if self.__contextSwitch(project):
+            err = self.__operation("namespaces", cmd, namespace)
+            return "{}/{}".format(project, namespace), err
+
+    def getVersion(self):
+        try:
+            cpi = subprocess.run(("rancher", "settings", "get", "server-version"), capture_output=True)
+            if cpi.stderr:
+                logger.error("rancher settings get server-version: {}".format(cpi.stderr.decode().rstrip("\n").replace("\n", " ")))
+            if cpi.stdout:
+                return list(filter(None, cpi.stdout.decode().split("\n")))[-1]
+        except FileNotFoundError:
+            logger.error("can't find rancher cli")
