@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assisted Deployment</title>
+    <link rel=stylesheet type=text/css href="./style.css">
+    <script src="./gui.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <button class="btn" type="button" onclick="btnHeader('rancher', this);">rancher cli</button>
+            <button class="btn" type="button" onclick="btnHeader('kubectl', this);">kubectl</button>
+<!--            <button class="btn" type="button" onclick="btnHeader('helm', this);">helm</button>-->
+            <button class="btn" type="button" onclick="btnHeader('configuration', this);">configuration</button>
+        </div>
+        <div id="main">
+            <div id="rancher">
+                <div class="project-header">Projects</div>
+                <div class="namespace-header">Namespaces</div>
+                <div class="projects"></div>
+                <div class="namespaces"></div>
+            </div>
+            <div id="kubectl">
+                <div class="project-header">Projects</div>
+                <div class="namespace-header">Namespaces</div>
+                <div class="workload-header">Workloads</div>
+                <div class="projects"></div>
+                <div class="namespaces"></div>
+                <div class="workloads"></div>
+            </div>
+<!--            <div id="helm">-->
+<!--                <div class="project-header">Projects</div>-->
+<!--                <div class="namespace-header">Namespaces</div>-->
+<!--                <div class="workload-header">Workloads</div>-->
+<!--                <div class="projects"></div>-->
+<!--                <div class="namespaces"></div>-->
+<!--                <div class="workloads"></div>-->
+<!--            </div>-->
+            <div id="configuration">
+                <div id="navigation">
+                    <button class="btn-conf-nav" type="button" onclick="btnConfNav('kube-config', this);">kube config</button>
+                    <button class="btn-conf-nav" type="button" onclick="btnConfNav('bl-base', this);">base blacklist</button>
+                    <button class="btn-conf-nav" type="button" onclick="btnConfNav('bl-source', this);">source blacklist</button>
+                    <button class="btn-conf-nav" type="button" onclick="btnConfNav('wl-configs', this);">workload-configs</button>
+                    <button class="btn-conf-nav" type="button" onclick="btnConfNav('version', this);">version</button>
+                </div>
+                <div id="content"></div>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="response"></div>
+            <div id="sk-wave">
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -46,7 +46,7 @@ app = falcon.API()
 app.req_options.strip_url_path_trailing_slash = True
 
 routes = (
-    ("/", api.Static("/static/index.html")),
+    ("/", api.Static("/static/panel.html")),
     ("/projects", api.Projects(browser)),
     ("/projects/{project}", api.NameSpaces(browser)),
     ("/projects/{project}/{namespace}", api.Workloads(browser)),
