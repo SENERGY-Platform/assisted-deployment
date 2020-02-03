@@ -19,7 +19,7 @@ from .logger import getLogger
 from .browser import Browser
 from .blacklist import BlacklistManger
 from .workload import WorkloadConfigs
-from .deployment import KubectlManager
+from .deployment import KubectlManager, HelmManager, RancherManager
 from .util import getKubeconfig, setKubeconfig
 import falcon, json, yaml
 
