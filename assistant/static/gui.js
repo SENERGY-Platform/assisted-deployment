@@ -229,3 +229,62 @@ function addKubectlBtns(item, path, element) {
     element.appendChild(apply_btn);
 }
 
+
+async function listItems(grid, level, path="") {
+    let containers = [];
+    containers.push(grid.getElementsByClassName('projects')[0]);
+    containers.push(grid.getElementsByClassName('namespaces')[0]);
+    containers.push(grid.getElementsByClassName('workloads')[0]);
+    containers = containers.filter(item => item);
+    let items = [];
+    let result = await awaitRequest("GET", "../projects"+path);
+    if (result.status === 200) {
+        items = JSON.parse(result.response);
+    }
+    if (containers.length === 3 && level - 1 === 0) {
+        clearContainer(containers[2])
+    }
+    clearContainer(containers[level]);
+    for (let item of items) {
+        let container_div = document.createElement('div');
+        container_div.className = 'deployment-item-container';
+        let top_div = document.createElement('div');
+        top_div.className = 'deployment-item-container-top';
+        let bottom_div = document.createElement('div');
+        bottom_div.className = 'deployment-item-container-bottom';
+
+        top_div.appendChild(document.createTextNode(item));
+
+        switch (grid) {
+            case rancher_grid:
+                addRancherCliBtns(item, path, bottom_div);
+                break;
+            case kubectl_grid:
+                addKubectlBtns(item, path, bottom_div);
+                break;
+            // case helm_grid:
+            //     console.log("helm");
+            //     break;
+        }
+
+        if (level < containers.length - 1) {
+            let expand_btn = document.createElement('button');
+            expand_btn.type = 'button';
+            expand_btn.className = 'btn';
+            expand_btn.appendChild(document.createTextNode('expand'));
+            expand_btn.onclick = function () {
+                for (let cd of containers[level].getElementsByClassName('deployment-item-container-active')) {
+                    cd.className = 'deployment-item-container';
+                }
+                container_div.className = 'deployment-item-container-active';
+                listItems(grid,level + 1, path + "/" + item);
+            };
+            bottom_div.appendChild(expand_btn);
+        }
+
+        container_div.appendChild(top_div);
+        container_div.appendChild(bottom_div);
+
+        containers[level].appendChild(container_div);
+    }
+}
