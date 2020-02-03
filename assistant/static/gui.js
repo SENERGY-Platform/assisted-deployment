@@ -17,6 +17,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+
+let loader;
+let kubectl_grid;
+let rancher_grid;
+// let helm_grid;
+let configuration_grid;
+let response_pane;
+let content_pane;
+
+
+window.addEventListener("DOMContentLoaded", function (e) {
+    loader = document.getElementById('sk-wave');
+    rancher_grid = document.getElementById('rancher');
+    kubectl_grid = document.getElementById('kubectl');
+    // helm_grid = document.getElementById('helm');
+    configuration_grid = document.getElementById('configuration');
+    response_pane = document.getElementById('response');
+    content_pane = document.getElementById('content');
+});
+
+
 function httpPut(uri, header, body) {
     if (uri) {
         return new Promise(function (resolve, reject) {
