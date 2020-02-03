@@ -87,7 +87,7 @@ class Blacklist:
         resp.body = "\n".join(self.__blacklist.list())
 
     def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
-        if not req.content_type == falcon.MEDIA_TEXT:
+        if not req.content_type in ("text/plain;charset=UTF-8", falcon.MEDIA_TEXT):
             resp.status = falcon.HTTP_415
         else:
             try:
@@ -115,7 +115,7 @@ class Kubeconfig:
             resp.status = falcon.HTTP_500
 
     def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
-        if not req.content_type == falcon.MEDIA_TEXT:
+        if not req.content_type in ("text/plain;charset=UTF-8", falcon.MEDIA_TEXT):
             resp.status = falcon.HTTP_415
         else:
             try:
@@ -144,7 +144,7 @@ class WorkloadConfs:
             resp.status = falcon.HTTP_500
 
     def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
-        if not req.content_type == falcon.MEDIA_TEXT:
+        if not req.content_type in ("text/plain;charset=UTF-8", falcon.MEDIA_TEXT):
             resp.status = falcon.HTTP_415
         else:
             try:
