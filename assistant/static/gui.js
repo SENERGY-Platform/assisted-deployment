@@ -97,7 +97,8 @@ function httpGet(uri, header) {
 async function awaitRequest(method, uri, content_type, body, header) {
     let response;
     let err;
-    //loader.style.display = "block";
+    response_pane.style.display = "none";
+    loader.style.display = "flex";
     if (method === 'GET') {
         response = await httpGet(uri, header).catch(function (e) {
             err = e;
@@ -108,7 +109,8 @@ async function awaitRequest(method, uri, content_type, body, header) {
             err = e;
         });
     }
-    //loader.style.display = "none";
+    loader.style.display = "none";
+    response_pane.style.display = "block";
     return response || err;
 }
 
