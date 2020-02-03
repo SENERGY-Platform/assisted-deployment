@@ -49,22 +49,6 @@ class Projects:
             resp.status = falcon.HTTP_404
 
 
-class Project:
-    def __init__(self, browser: Browser):
-        self.__browser = browser
-
-    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response, project):
-        try:
-            item = self.__browser.getProject(project)
-            resp.status = falcon.HTTP_200
-            resp.content_type = falcon.MEDIA_JSON
-            resp.body = json.dumps(item)
-        except KeyError:
-            resp.status = falcon.HTTP_404
-        except Exception:
-            resp.status = falcon.HTTP_500
-
-
 class NameSpaces:
     def __init__(self, browser: Browser):
         self.__browser = browser
@@ -79,22 +63,6 @@ class NameSpaces:
             resp.status = falcon.HTTP_404
 
 
-class NameSpace:
-    def __init__(self, browser: Browser):
-        self.__browser = browser
-
-    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response, project, namespace):
-        try:
-            item = self.__browser.getNamespace(project, namespace)
-            resp.status = falcon.HTTP_200
-            resp.content_type = falcon.MEDIA_JSON
-            resp.body = json.dumps(item)
-        except KeyError:
-            resp.status = falcon.HTTP_404
-        except Exception:
-            resp.status = falcon.HTTP_500
-
-
 class Workloads:
     def __init__(self, browser: Browser):
         self.__browser = browser
@@ -107,36 +75,6 @@ class Workloads:
             resp.body = json.dumps(items)
         except Exception:
             resp.status = falcon.HTTP_404
-
-
-class Workload:
-    def __init__(self, browser: Browser):
-        self.__browser = browser
-
-    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response, project, namespace, workload):
-        try:
-            item = self.__browser.getWorkload(project, namespace, workload)
-            resp.status = falcon.HTTP_200
-            resp.content_type = falcon.MEDIA_JSON
-            resp.body = json.dumps(item)
-        except KeyError:
-            resp.status = falcon.HTTP_404
-        except Exception:
-            resp.status = falcon.HTTP_500
-
-
-# class Control:
-#     def __init__(self, browser: Browser, blacklist: BlacklistManger):
-#         self.__browser = browser
-#         self.__blacklist = blacklist
-#
-#     def on_get(self, req: falcon.request.Request, resp: falcon.response.Response, option):
-#         if option == "reload":
-#             self.__blacklist.read()
-#             self.__browser.read()
-#             resp.status = falcon.HTTP_200
-#         else:
-#             resp.status = falcon.HTTP_404
 
 
 class Blacklist:
