@@ -204,3 +204,20 @@ class Kubectl:
                 resp.status = falcon.HTTP_200
             else:
                 resp.status = falcon.HTTP_404
+
+
+class Helm:
+
+    class Version:
+        def __init__(self, helm_manager: HelmManager):
+            self.__helm_manager = helm_manager
+
+        def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+            version = self.__helm_manager.getVersion()
+            if version:
+                resp.body = version
+                resp.status = falcon.HTTP_200
+            else:
+                resp.status = falcon.HTTP_404
+
+
