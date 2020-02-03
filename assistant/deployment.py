@@ -109,7 +109,7 @@ class RancherManager:
         self.__browser = browser
         self.__project_map = dict()
 
-    def init(self):
+    def login(self):
         if all((config.Rancher.server, config.Rancher.bearer_token, config.Rancher.default_context, config.Rancher.default_context_name)):
             cpi = subprocess.run(
                 ("rancher", "login", config.Rancher.server, "--token", config.Rancher.bearer_token, "--context", config.Rancher.default_context),

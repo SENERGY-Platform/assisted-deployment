@@ -42,7 +42,7 @@ browser.read()
 kubectl_manager = KubectlManager(browser, workload_configs)
 helm_manager = HelmManager(browser, workload_configs)
 rancher_manager = RancherManager(browser)
-rancher_manager.init()
+rancher_manager.login()
 
 
 app = falcon.API()
