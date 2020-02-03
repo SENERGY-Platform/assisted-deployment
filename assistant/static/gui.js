@@ -328,3 +328,44 @@ async function showConfigItem(pane, path) {
     addSaveBtn(pane, textarea, path);
 }
 
+function btnHeader(context, btn) {
+    clearResponsePane();
+    // helm_grid.style.display = "none";
+    kubectl_grid.style.display = "none";
+    configuration_grid.style.display = "none";
+    rancher_grid.style.display = "none";
+    for (let cd of document.getElementById('header').getElementsByClassName('btn-active')) {
+        cd.className = 'btn';
+    }
+    btn.className = 'btn-active';
+    clearContainer(rancher_grid.getElementsByClassName('projects')[0]);
+    clearContainer(rancher_grid.getElementsByClassName('namespaces')[0]);
+    clearContainer(kubectl_grid.getElementsByClassName('projects')[0]);
+    clearContainer(kubectl_grid.getElementsByClassName('namespaces')[0]);
+    clearContainer(kubectl_grid.getElementsByClassName('workloads')[0]);
+    // clearContainer(helm_grid.getElementsByClassName('projects')[0]);
+    // clearContainer(helm_grid.getElementsByClassName('namespaces')[0]);
+    // clearContainer(helm_grid.getElementsByClassName('workloads')[0]);
+    switch (context) {
+        case "rancher":
+            listItems(rancher_grid, 0);
+            rancher_grid.style.display = "grid";
+            break;
+        case "kubectl":
+            listItems(kubectl_grid, 0);
+            kubectl_grid.style.display = "grid";
+            break;
+        // case "helm":
+        //     listItems(helm_grid, 0);
+        //     helm_grid.style.display = "grid";
+        //     break;
+        case "configuration":
+            clearContainer(content_pane);
+            for (let cd of document.getElementById('configuration').getElementsByClassName('btn-conf-nav-active')) {
+                cd.className = 'btn-conf-nav';
+            }
+            configuration_grid.style.display = "grid";
+            break;
+    }
+}
+
