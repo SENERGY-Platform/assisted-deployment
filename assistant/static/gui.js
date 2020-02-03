@@ -303,3 +303,16 @@ async function listVersions(pane) {
         pane.appendChild(document.createElement('br'));
     }
 }
+
+function addSaveBtn(pane, data_element, path) {
+    let save_btn = document.createElement('button');
+    save_btn.type = 'button';
+    save_btn.className = 'btn';
+    save_btn.appendChild(document.createTextNode('save'));
+    save_btn.onclick = async function () {
+        let result = await awaitRequest("PUT", ".." + path, "text/plain; charset=utf-8", data_element.value);
+        clearResponsePane();
+        response_pane.appendChild(document.createTextNode(result.status));
+    };
+    pane.appendChild(save_btn);
+}
