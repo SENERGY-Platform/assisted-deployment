@@ -161,3 +161,31 @@ async function rancherCli(cmd, params) {
 }
 
 
+function addRancherCliBtns(item, path, element) {
+    let params = path.split("/");
+    params.push(item);
+    params = params.filter(item => item);
+
+    let create_btn = document.createElement('button');
+    create_btn.type = 'button';
+    create_btn.className = 'btn';
+    create_btn.appendChild(document.createTextNode('create'));
+    create_btn.onclick = async function () {
+        if (confirm("CREATE --> '" + item + "' ?")) {
+            rancherCli('create', params)
+        }
+    };
+    element.appendChild(create_btn);
+
+    let delete_btn = document.createElement('button');
+    delete_btn.type = 'button';
+    delete_btn.className = 'btn';
+    delete_btn.appendChild(document.createTextNode('delete'));
+    delete_btn.onclick = async function () {
+        if (confirm("DELETE --> '" + item + "' ?")) {
+            rancherCli('delete', params)
+        }
+    };
+    element.appendChild(delete_btn);
+}
+
