@@ -263,6 +263,9 @@ class Rancher:
 
 class RancherConf:
 
+    def __init__(self, rancher_manager: RancherManager):
+        self.__rancher_manager = rancher_manager
+
     def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
         resp.status = falcon.HTTP_200
         resp.content_type = falcon.MEDIA_TEXT
@@ -287,6 +290,7 @@ class RancherConf:
                     config.Rancher.default_context_name = data["default_context_name"]
                     config.Rancher.default_context = data["default_context"]
                     config.Rancher.bearer_token = data["bearer_token"]
+                    self.__rancher_manager.login()
                     resp.status = falcon.HTTP_200
                 else:
                     resp.status = falcon.HTTP_400
