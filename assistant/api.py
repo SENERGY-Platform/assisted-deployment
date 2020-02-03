@@ -221,3 +221,40 @@ class Helm:
                 resp.status = falcon.HTTP_404
 
 
+class Rancher:
+
+    class Operation:
+        __parameters = ("project", "namespace")
+
+        def __init__(self, rancher_manager: RancherManager):
+            self.__rancher_manager = rancher_manager
+
+        def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+            if req.params and set(req.params).issubset(self.__parameters):
+                if len(req.params) == 2:
+                    try:
+                        resp.body = json.dumps(list(self.__rancher_manager.operationNamespace(req.path.rsplit("/", 1)[-1], **req.params)))
+                        resp.status = falcon.HTTP_200
+                    except Exception:
+                        resp.status = falcon.HTTP_400
+                elif len(req.params) == 1:
+                    try:
+                        resp.body = json.dumps(list(self.__rancher_manager.operationProject(req.path.rsplit("/", 1)[-1], **req.params)))
+                        resp.status = falcon.HTTP_200
+                    except Exception:
+                        resp.status = falcon.HTTP_400
+            else:
+                resp.status = falcon.HTTP_400
+
+    class Version:
+        def __init__(self, rancher_manager: RancherManager):
+            self.__rancher_manager = rancher_manager
+
+        def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+            version = self.__rancher_manager.getVersion()
+            if version:
+                resp.body = version
+                resp.status = falcon.HTTP_200
+            else:
+                resp.status = falcon.HTTP_404
+
