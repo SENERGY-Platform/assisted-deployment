@@ -114,14 +114,36 @@ async function awaitRequest(method, uri, content_type, body, header) {
     return response || err;
 }
 
-async function getProjects() {
-    let result = await awaitRequest("GET", "projects");
-    if (result.status === 200) {
-        console.log(result.response);
+
+function clearContainer(container) {
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
     }
-    return false;
 }
 
-window.addEventListener("DOMContentLoaded", function (e) {
-   getProjects();
-});
+
+function clearResponsePane() {
+    while (response_pane.firstChild) {
+        response_pane.removeChild(response_pane.firstChild);
+    }
+}
+
+
+let param_map = {
+    0: 'project=',
+    1: '&namespace=',
+    2: '&workload='
+};
+
+async function kubectl(cmd, params) {
+    let request_params = "";
+    for (let i = 0; i < params.length; i++) {
+        request_params += param_map[i] + params[i];
+    }
+    let result = await awaitRequest("GET", "../kubectl/"+cmd+"?"+request_params);
+    if (result.status === 200) {
+        clearResponsePane();
+        response_pane.appendChild(document.createTextNode(result.response));
+    }
+}
+
