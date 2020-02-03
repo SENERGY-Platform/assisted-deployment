@@ -193,3 +193,14 @@ class Kubectl:
             else:
                 resp.status = falcon.HTTP_400
 
+    class Version:
+        def __init__(self, kubectl_manager: KubectlManager):
+            self.__kubectl_manager = kubectl_manager
+
+        def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+            version = self.__kubectl_manager.getVersion()
+            if version:
+                resp.body = version
+                resp.status = falcon.HTTP_200
+            else:
+                resp.status = falcon.HTTP_404
