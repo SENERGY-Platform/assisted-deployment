@@ -78,8 +78,9 @@ class Workloads:
 
 
 class Blacklist:
-    def __init__(self, blacklist: BlacklistManger):
+    def __init__(self, blacklist: BlacklistManger, browser: Browser):
         self.__blacklist = blacklist
+        self.__browser = browser
 
     def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
         resp.status = falcon.HTTP_200
@@ -94,6 +95,7 @@ class Blacklist:
                 data = req.bounded_stream.read()
                 data = [item for item in data.decode().split("\n") if item]
                 self.__blacklist.update(data)
+                self.__browser.read()
                 resp.status = falcon.HTTP_200
             except Exception as ex:
                 logger.error("could not update blacklist - {}".format(ex))
