@@ -54,11 +54,19 @@ routes = (
     ("/projects", api.Projects(browser)),
     ("/projects/{project}", api.NameSpaces(browser)),
     ("/projects/{project}/{namespace}", api.Workloads(browser)),
-    ("/workload-configs", api.WorkloadConfs(workload_configs)),
-    ("/blacklists/source", api.Blacklist(blacklist)),
-    ("/blacklists/base", api.Blacklist(base_blacklist)),
-    ("/kubeconfig", api.Kubeconfig()),
-    ("/kubectl", api.Kubectl(kubectl_manager))
+    ("/configuration/workload-configs", api.WorkloadConfs(workload_configs)),
+    ("/configuration/blacklists/source", api.Blacklist(blacklist)),
+    ("/configuration/blacklists/base", api.Blacklist(base_blacklist)),
+    ("/configuration/kubeconfig", api.Kubeconfig()),
+    ("/configuration/rancher", api.RancherConf()),
+    ("/kubectl/apply", api.Kubectl.Operation(kubectl_manager)),
+    ("/kubectl/create", api.Kubectl.Operation(kubectl_manager)),
+    ("/kubectl/delete", api.Kubectl.Operation(kubectl_manager)),
+    ("/kubectl/version", api.Kubectl.Version(kubectl_manager)),
+    ("/helm/version", api.Helm.Version(helm_manager)),
+    ("/rancher/create", api.Rancher.Operation(rancher_manager)),
+    ("/rancher/delete", api.Rancher.Operation(rancher_manager)),
+    ("/rancher/version", api.Rancher.Version(rancher_manager))
 )
 
 for route in routes:
