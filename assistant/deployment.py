@@ -76,3 +76,14 @@ class KubectlManager:
         for project in self.__browser.listProjects():
             results.extend(self.operationProjectWorkloads(cmd, project))
         return results
+
+    def getVersion(self):
+        try:
+            cpi = subprocess.run(("kubectl", "version"), capture_output=True)
+            if cpi.stderr:
+                logger.error("kubectl version: {}".format(cpi.stderr.decode().rstrip("\n").replace("\n", " ")))
+            if cpi.stdout:
+                return cpi.stdout.decode()
+        except FileNotFoundError:
+            logger.error("can't find kubectl")
+
