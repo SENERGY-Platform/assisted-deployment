@@ -316,3 +316,15 @@ function addSaveBtn(pane, data_element, path) {
     };
     pane.appendChild(save_btn);
 }
+
+async function showConfigItem(pane, path) {
+    let textarea = document.createElement('textarea');
+    textarea.className = "text-box";
+    let result = await awaitRequest("GET", ".." + path);
+    if (result.status === 200) {
+        textarea.value = result.response
+    }
+    pane.appendChild(textarea);
+    addSaveBtn(pane, textarea, path);
+}
+
