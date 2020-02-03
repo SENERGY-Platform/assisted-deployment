@@ -1,0 +1,309 @@
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #fafafa;
+    font: 400 14px/20px Roboto,"Helvetica Neue",sans-serif;
+}
+
+:root {
+    --sk-size: 40px;
+    --sk-color: #a6dbff;
+    --line-color: #e1e1e1;
+    --active-color: #cff8ff;
+}
+
+/* ---------------------------- Main grid ---------------------------- */
+
+#container {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    grid-template-areas: "header"
+    "main"
+    "footer";
+    grid-template-columns: 4fr;
+    grid-template-rows: 60px 1fr 60px;
+}
+
+#header {
+    grid-area: header;
+    background: white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    -webkit-box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.1);
+    box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.1);
+    z-index: 5;
+}
+
+#main {
+    grid-area: main;
+    z-index: 0;
+}
+
+#footer {
+    grid-area: footer;
+    background: white;
+    -webkit-box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.1);
+    box-shadow: 0 0 0.2rem rgba(0,0,0,.1), 0 0.2rem 0.4rem rgba(0,0,0,.1);
+    z-index: 5;
+}
+
+/* ---------------------------- Deployment grid ---------------------------- */
+
+#rancher {
+    display: none; /* grid */
+    width: 100%;
+    height: calc(100vh - 120px);
+    grid-template-areas: "project-header namespace-header"
+    "project namespace";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 50px 1fr;
+}
+
+#kubectl {
+    display: none; /* grid */
+    width: 100%;
+    height: calc(100vh - 120px);
+    grid-template-areas: "project-header namespace-header workload-header"
+    "project namespace workload";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 50px 1fr;
+}
+
+#helm {
+    display: none; /* grid */
+    width: 100%;
+    height: calc(100vh - 120px);
+    grid-template-areas: "project-header namespace-header workload-header"
+    "project namespace workload";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 50px 1fr;
+}
+
+.project-header {
+    grid-area: project-header;
+    background: white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-right: 1px solid var(--line-color);
+    border-bottom: 1px solid var(--line-color);
+    z-index: 4;
+    font-size: larger;
+}
+
+.namespace-header {
+    grid-area: namespace-header;
+    background: white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-right: 1px solid var(--line-color);
+    border-bottom: 1px solid var(--line-color);
+    z-index: 3;
+    font-size: larger;
+}
+
+.workload-header {
+    grid-area: workload-header;
+    background: white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-bottom: 1px solid var(--line-color);
+    z-index: 2;
+    font-size: larger;
+}
+
+.projects {
+    grid-area: project;
+    border-right: 1px solid var(--line-color);
+    overflow-y: auto;
+    z-index: 1;
+}
+
+.namespaces {
+    grid-area: namespace;
+    border-right: 1px solid var(--line-color);
+    overflow-y: auto;
+    z-index: 1;
+}
+
+.workloads {
+    grid-area: workload;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+/* ---------------------------- Configuration grid ---------------------------- */
+
+#configuration {
+    display: none; /* grid */
+    width: 100%;
+    height: calc(100vh - 120px);
+    grid-template-areas: "navigation content";
+    grid-template-columns: 160px 1fr;
+    grid-template-rows: 1fr;
+}
+
+#navigation {
+    grid-area: navigation;
+    background: white;
+    -webkit-box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+    padding-top: 15px;
+}
+
+#content {
+    grid-area: content;
+    padding: 30px;
+}
+
+/* ---------------------------- Spinner ---------------------------- */
+
+
+#sk-wave {
+    width: var(--sk-size);
+    height: var(--sk-size);
+    display: none; /* flex */
+    justify-content: space-between;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.sk-wave-rect {
+    background-color: var(--sk-color);
+    height: 100%;
+    width: 12%;
+    animation: sk-wave 1.2s infinite ease-in-out;
+}
+
+.sk-wave-rect:nth-child(1) { animation-delay: -1.2s; }
+.sk-wave-rect:nth-child(2) { animation-delay: -1.1s; }
+.sk-wave-rect:nth-child(3) { animation-delay: -1.0s; }
+.sk-wave-rect:nth-child(4) { animation-delay: -0.9s; }
+.sk-wave-rect:nth-child(5) { animation-delay: -0.8s; }
+
+@keyframes sk-wave {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    } 20% {
+          transform: scaleY(1);
+      }
+}
+
+
+/* ---------------------------- Deployment + Configuration grid items ---------------------------- */
+
+
+.deployment-item-container {
+    background: white;
+    border: 1px solid var(--line-color);
+    margin: 10px;
+    width: auto;
+    padding: 10px;
+    justify-content: left;
+    align-items: center;
+    display: block;
+}
+
+.deployment-item-container-active {
+    background: var(--active-color);
+    border: 1px solid var(--line-color);
+    margin: 10px;
+    width: auto;
+    padding: 10px;
+    justify-content: left;
+    align-items: center;
+    display: block;
+}
+
+.deployment-item-container-top {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.deployment-item-container-bottom {
+    width: 100%;
+}
+
+
+/* ---------------------------- Buttons ---------------------------- */
+
+
+.btn, .btn-conf-nav {
+    width: 90px;
+    color: black;
+    padding: 8px 8px;
+    text-align: center;
+    margin-right: 6px;
+    transition: 0.3s;
+    border: solid 1px var(--line-color);
+    cursor: pointer;
+    background-color: white;
+    outline: none;
+    font-size: 12px;
+}
+
+.btn-active, .btn-conf-nav-active {
+    width: 90px;
+    color: black;
+    padding: 8px 8px;
+    text-align: center;
+    margin-right: 6px;
+    transition: 0.3s;
+    border: solid 1px var(--line-color);
+    cursor: pointer;
+    background-color: var(--active-color);
+    outline: none;
+    font-size: 12px;
+}
+
+.btn:hover, .btn-conf-nav:hover {
+    background-color: var(--sk-color);
+    outline: none;
+    border-color: #c3c3c3;
+}
+
+.btn-conf-nav {
+    width: 120px;
+    margin-top: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.btn-conf-nav-active {
+    width: 120px;
+    margin-top: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+
+/* ---------------------------- Response panel in footer ---------------------------- */
+
+
+#response {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    text-align: center;
+    overflow-y: auto;
+    color: #7d7d7d;
+    font-size: smaller;
+    padding: 10px;
+}
+
+
+
+
+.text-box {
+    width: 100%;
+    height: calc(100% - 40px);
+    border-color: var(--line-color);
+    outline: none;
+    resize: none;
+}
