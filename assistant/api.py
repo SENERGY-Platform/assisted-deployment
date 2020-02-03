@@ -160,33 +160,36 @@ class WorkloadConfs:
 
 
 class Kubectl:
-    __parameters = ("project", "namespace", "workload")
 
-    def __init__(self, kubectl_manager: KubectlManager):
-        self.__kubectl_manager = kubectl_manager
+    class Operation:
+        __parameters = ("project", "namespace", "workload")
 
-    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
-        if req.params and set(req.params).issubset(self.__parameters):
-            if len(req.params) == 3:
-                try:
-                    resp.body = json.dumps(list(self.__kubectl_manager.deployWorkload(**req.params)))
-                    resp.status = falcon.HTTP_200
-                except Exception:
-                    resp.status = falcon.HTTP_400
-            elif len(req.params) == 2:
-                try:
-                    resp.body = json.dumps(self.__kubectl_manager.deployNamespace(**req.params))
-                    resp.status = falcon.HTTP_200
-                except Exception:
-                    resp.status = falcon.HTTP_400
-            elif len(req.params) == 1:
-                try:
-                    if "*" in req.params.values():
-                        resp.body = json.dumps(self.__kubectl_manager.deployAll())
-                    else:
-                        resp.body = json.dumps(self.__kubectl_manager.deployProject(**req.params))
-                    resp.status = falcon.HTTP_200
-                except Exception:
-                    resp.status = falcon.HTTP_400
-        else:
-            resp.status = falcon.HTTP_400
+        def __init__(self, kubectl_manager: KubectlManager):
+            self.__kubectl_manager = kubectl_manager
+
+        def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+            if req.params and set(req.params).issubset(self.__parameters):
+                if len(req.params) == 3:
+                    try:
+                        resp.body = json.dumps(list(self.__kubectl_manager.operationWorkload(req.path.rsplit("/", 1)[-1], **req.params)))
+                        resp.status = falcon.HTTP_200
+                    except Exception:
+                        resp.status = falcon.HTTP_400
+                elif len(req.params) == 2:
+                    try:
+                        resp.body = json.dumps(self.__kubectl_manager.operationNamespaceWorkloads(req.path.rsplit("/", 1)[-1], **req.params))
+                        resp.status = falcon.HTTP_200
+                    except Exception:
+                        resp.status = falcon.HTTP_400
+                elif len(req.params) == 1:
+                    try:
+                        if "*" in req.params.values():
+                            resp.body = json.dumps(self.__kubectl_manager.operationAllWorkloads(req.path.rsplit("/", 1)[-1]))
+                        else:
+                            resp.body = json.dumps(self.__kubectl_manager.operationProjectWorkloads(req.path.rsplit("/", 1)[-1], **req.params))
+                        resp.status = falcon.HTTP_200
+                    except Exception:
+                        resp.status = falcon.HTTP_400
+            else:
+                resp.status = falcon.HTTP_400
+
