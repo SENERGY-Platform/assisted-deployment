@@ -258,3 +258,36 @@ class Rancher:
             else:
                 resp.status = falcon.HTTP_404
 
+
+class RancherConf:
+
+    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+        resp.status = falcon.HTTP_200
+        resp.content_type = falcon.MEDIA_TEXT
+        resp.body = json.dumps(
+            {
+                "server": config.Rancher.server,
+                "default_context_name": config.Rancher.default_context_name,
+                "default_context": config.Rancher.default_context,
+                "bearer_token": config.Rancher.bearer_token
+            },
+            indent=4
+        )
+
+    def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
+        if not req.content_type in ("text/plain;charset=UTF-8", falcon.MEDIA_TEXT):
+            resp.status = falcon.HTTP_415
+        else:
+            try:
+                data = json.load(req.bounded_stream)
+                if data:
+                    config.Rancher.server = data["server"]
+                    config.Rancher.default_context_name = data["default_context_name"]
+                    config.Rancher.default_context = data["default_context"]
+                    config.Rancher.bearer_token = data["bearer_token"]
+                    resp.status = falcon.HTTP_200
+                else:
+                    resp.status = falcon.HTTP_400
+            except Exception as ex:
+                logger.error("can't update rancher configs - {}".format(ex))
+                resp.status = falcon.HTTP_500
