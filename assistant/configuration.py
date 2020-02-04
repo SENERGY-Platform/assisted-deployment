@@ -31,6 +31,10 @@ if not os.path.exists(user_dir):
 class AssistantConf:
 
     @section
+    class Assistant:
+        name = "My Assistant"
+
+    @section
     class Browser:
         path = "/source"
 

@@ -300,3 +300,30 @@ class RancherConf:
             except Exception as ex:
                 logger.error("can't update rancher configs - {}".format(ex))
                 resp.status = falcon.HTTP_500
+
+class AssistantConf:
+
+    def on_get(self, req: falcon.request.Request, resp: falcon.response.Response):
+        resp.status = falcon.HTTP_200
+        resp.content_type = falcon.MEDIA_TEXT
+        resp.body = json.dumps(
+            {
+                "name": config.Assistant.name,
+            },
+            indent=4
+        )
+
+    def on_put(self, req: falcon.request.Request, resp: falcon.response.Response):
+        if not req.content_type in ("text/plain;charset=UTF-8", falcon.MEDIA_TEXT):
+            resp.status = falcon.HTTP_415
+        else:
+            try:
+                data = json.load(req.bounded_stream)
+                if data:
+                    config.Assistant.name = data["name"]
+                    resp.status = falcon.HTTP_200
+                else:
+                    resp.status = falcon.HTTP_400
+            except Exception as ex:
+                logger.error("can't update assistant config - {}".format(ex))
+                resp.status = falcon.HTTP_500

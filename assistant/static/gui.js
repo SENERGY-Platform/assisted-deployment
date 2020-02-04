@@ -27,6 +27,16 @@ let response_pane;
 let content_pane;
 
 
+async function getAssistantInfo() {
+    let result = await awaitRequest("GET", "../configuration/assistant");
+    if (result.status === 200) {
+        let info = JSON.parse(result.response);
+        document.title = info["name"] + " - Assisted Deployment";
+        document.getElementById("assistant-title").innerHTML = info["name"];
+    }
+}
+
+
 window.addEventListener("DOMContentLoaded", function (e) {
     loader = document.getElementById('sk-wave');
     rancher_grid = document.getElementById('rancher');
@@ -35,6 +45,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
     configuration_grid = document.getElementById('configuration');
     response_pane = document.getElementById('response');
     content_pane = document.getElementById('content');
+    getAssistantInfo();
 });
 
 
@@ -377,6 +388,9 @@ function btnConfNav(context, btn) {
     clearContainer(content_pane);
     clearResponsePane();
     switch (context) {
+        case "assistant-config":
+            showConfigItem(content_pane, "/configuration/assistant");
+            break;
         case "rancher-config":
             showConfigItem(content_pane, "/configuration/rancher");
             break;

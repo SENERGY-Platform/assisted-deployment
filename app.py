@@ -59,6 +59,7 @@ routes = (
     ("/configuration/blacklists/base", api.Blacklist(base_blacklist, browser)),
     ("/configuration/kubeconfig", api.Kubeconfig()),
     ("/configuration/rancher", api.RancherConf(rancher_manager)),
+    ("/configuration/assistant", api.AssistantConf()),
     ("/kubectl/apply", api.Kubectl.Operation(kubectl_manager)),
     ("/kubectl/create", api.Kubectl.Operation(kubectl_manager)),
     ("/kubectl/delete", api.Kubectl.Operation(kubectl_manager)),

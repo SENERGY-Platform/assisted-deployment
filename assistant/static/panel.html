@@ -24,6 +24,7 @@ limitations under the License.
 <body>
     <div id="container">
         <div id="header">
+            <div id="assistant-title"></div>
             <button class="btn" type="button" onclick="btnHeader('rancher', this);">rancher cli</button>
             <button class="btn" type="button" onclick="btnHeader('kubectl', this);">kubectl</button>
 <!--            <button class="btn" type="button" onclick="btnHeader('helm', this);">helm</button>-->
@@ -54,6 +55,7 @@ limitations under the License.
 <!--            </div>-->
             <div id="configuration">
                 <div id="navigation">
+                    <button class="btn-conf-nav" type="button" onclick="btnConfNav('assistant-config', this);">assistant config</button>
                     <button class="btn-conf-nav" type="button" onclick="btnConfNav('rancher-config', this);">rancher config</button>
                     <button class="btn-conf-nav" type="button" onclick="btnConfNav('kube-config', this);">kube config</button>
                     <button class="btn-conf-nav" type="button" onclick="btnConfNav('bl-base', this);">base blacklist</button>
