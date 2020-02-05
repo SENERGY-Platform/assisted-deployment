@@ -40,7 +40,7 @@ class Browser:
                     if not self.__blacklist.check("{}/{}".format(pr, np)) and not self.__base_blacklist.check(np) and os.path.isdir("{}/{}/{}".format(self.__path, pr, np)):
                         workloads = dict()
                         for wl in os.listdir("{}/{}/{}".format(self.__path, pr, np)):
-                            if any(extension in wl for extension in (".yml", ".yaml")):
+                            if not self.__blacklist.check("{}/{}/{}".format(pr, np, wl)) and any(extension in wl for extension in (".yml", ".yaml")):
                                 workloads[wl.split(".", 1)[0]] = wl
                         project[np] = workloads
                 self.__projects[pr] = project
